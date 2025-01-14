@@ -148,7 +148,7 @@
 /* Left Section Specific */
 .customer-support {
   margin-bottom: 24px;
-  height: 329px;
+  min-height: 329px;
 }
 
 .customer-support-content {
@@ -161,6 +161,7 @@
   font-size: 64px;
   margin-top: 20px;
   margin: 0 0 20px 0;
+  line-height: 1;
   text-align: left;
   font-weight: 600;
 }
@@ -294,7 +295,7 @@
 }
 
 .ai-calling {
-  height: 328px;
+  min-height: 328px;
   margin-top: auto;
 }
 
@@ -317,7 +318,7 @@
   }
 
   .services-content {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .card-content h3 {

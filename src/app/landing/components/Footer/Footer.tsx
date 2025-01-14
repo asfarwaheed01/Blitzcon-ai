@@ -1,19 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Typography, Link } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 
 const Footer = () => {
+  const [background, setBackground] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setBackground(
+        "url('https://wallstreet-bucket.s3.eu-north-1.amazonaws.com/Rectangle+13.gif')"
+      );
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
   return (
     <Box
       component="footer"
       sx={{
         position: "relative",
         py: 6,
-        background:
-          "url('https://wallstreet-bucket.s3.eu-north-1.amazonaws.com/Rectangle+13.gif') no-repeat center center/cover",
+        background: background,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         color: "white",
         "&::before": {
           content: '""',
@@ -152,7 +165,7 @@ const Footer = () => {
               bgcolor: "rgba(255,255,255,0.1)",
               borderRadius: "12px",
               p: 3,
-              minWidth: "400px",
+              minWidth: { xs: "100%", md: "400px" },
               border: "2px solid white",
             }}
           >

@@ -31,7 +31,7 @@ const ScheduleDemo = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ overflow: "hidden" }}>
         {/* Header Section */}
         <Box sx={{ width: "100%", mb: 6 }}>
           <Typography
@@ -58,33 +58,59 @@ const ScheduleDemo = () => {
         {/* Main Content */}
         <Box>
           {/* Two Column Layout */}
-          <Box sx={{ display: "flex", gap: 4, alignItems: "flex-start" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 4,
+              alignItems: "flex-start",
+              flexDirection: { xs: "column", md: "row" },
+            }}
+          >
             {/* Left Column - Contact Cards */}
-            <Box sx={{ flex: 0.4 }}>
+            <Box
+              sx={{
+                flex: { xs: 1, md: 0.4 },
+                width: "100%", // Ensure full width on mobile
+              }}
+            >
               {/* Chat to Sales Card */}
               <Box
                 sx={{
                   bgcolor: "rgba(200, 200, 200, 0.9)",
                   borderRadius: "12px",
-                  p: 3,
+                  p: { xs: 2, md: 3 },
                   mb: 2,
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "flex-start",
+                  flexWrap: "wrap", // Allow wrapping on small screens
                 }}
               >
                 <Box
-                  sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    width: { xs: "calc(100% - 50px)", md: "auto" }, // Account for button space
+                  }}
                 >
-                  <Typography variant="h6" sx={{ fontSize: "36px", mb: 1 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: { xs: "30px", md: "36px" },
+                      mb: 1,
+                      wordBreak: "break-word",
+                    }}
+                  >
                     Chat to sales
                   </Typography>
                   <Typography
                     sx={{
                       mb: 1,
                       color: "#333",
-                      fontSize: "24px",
+                      fontSize: { xs: "20px", md: "24px" },
                       lineHeight: "1",
+                      wordBreak: "break-word",
                     }}
                   >
                     Interested in switching? Speak to our friendly team.
@@ -95,7 +121,7 @@ const ScheduleDemo = () => {
                     sx={{
                       color: "#9fff1a",
                       textDecoration: "none",
-                      fontSize: "30px",
+                      fontSize: { xs: "24px", md: "30px" },
                       "&:hover": { textDecoration: "underline" },
                     }}
                   >
@@ -109,6 +135,7 @@ const ScheduleDemo = () => {
                     height: "40px",
                     borderRadius: "50%",
                     bgcolor: "white",
+                    flexShrink: 0, // Prevent button from shrinking
                     "&:hover": { bgcolor: "white", opacity: 0.9 },
                   }}
                 >
@@ -129,16 +156,24 @@ const ScheduleDemo = () => {
                 }}
               >
                 <Box
-                  sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    width: { xs: "calc(100% - 50px)", md: "auto" }, // Account for button space
+                  }}
                 >
-                  <Typography variant="h6" sx={{ fontSize: "36px", mb: 1 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontSize: { xs: "30px", md: "36px" }, mb: 1 }}
+                  >
                     Email Support
                   </Typography>
                   <Typography
                     sx={{
                       mb: 1,
                       color: "#333",
-                      fontSize: "24px",
+                      fontSize: { xs: "20px", md: "24px" },
                       lineHeight: "1",
                     }}
                   >
@@ -150,7 +185,7 @@ const ScheduleDemo = () => {
                     sx={{
                       color: "#9fff1a",
                       textDecoration: "none",
-                      fontSize: "30px",
+                      fontSize: { xs: "24px", md: "30px" },
                       "&:hover": { textDecoration: "underline" },
                     }}
                   >
@@ -165,6 +200,7 @@ const ScheduleDemo = () => {
                     borderRadius: "50%",
                     bgcolor: "white",
                     "&:hover": { bgcolor: "white", opacity: 0.9 },
+                    flexShrink: 0, // Prevent button from shrinking
                   }}
                 >
                   <ArrowOutwardIcon />
@@ -187,13 +223,21 @@ const ScheduleDemo = () => {
                     display: "flex",
                     flexDirection: "column",
                     gap: "10px",
+                    width: { xs: "calc(100% - 50px)", md: "auto" }, // Account for button space
                   }}
                 >
-                  <Typography variant="h6" sx={{ fontSize: "36px", mb: 1 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontSize: { xs: "30px", md: "36px" }, mb: 1 }}
+                  >
                     Chat Support
                   </Typography>
                   <Typography
-                    sx={{ color: "#333", fontSize: "24px", lineHeight: "1" }}
+                    sx={{
+                      color: "#333",
+                      fontSize: { xs: "20px", md: "24px" },
+                      lineHeight: "1",
+                    }}
                   >
                     Chat to our team 24/7 for instant access to support.
                   </Typography>
@@ -205,6 +249,7 @@ const ScheduleDemo = () => {
                     height: "40px",
                     borderRadius: "50%",
                     bgcolor: "white",
+                    flexShrink: 0, // Prevent button from shrinking
                     "&:hover": { bgcolor: "white", opacity: 0.9 },
                   }}
                 >

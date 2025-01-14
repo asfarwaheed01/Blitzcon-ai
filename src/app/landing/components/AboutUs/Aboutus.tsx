@@ -14,7 +14,13 @@ const AboutSection = () => {
       }}
     >
       <Container maxWidth="xl">
-        <Box sx={{ display: "flex", gap: 10 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 10,
+            flexDirection: { xs: "column", md: "row" },
+          }}
+        >
           {/* Left Column - Text Content */}
           <Box sx={{ flex: 1 }}>
             <Typography
@@ -103,11 +109,16 @@ const AboutSection = () => {
                     bgcolor: "#1a1e2e",
                     borderRadius: "8px",
                     overflow: "hidden",
-                    height: "417px",
+                    height: { xs: "300px", md: "417px" },
                     flex: 1,
                   }}
                 >
-                  <Box sx={{ height: `342px`, bgcolor: "#333" }} />
+                  <Box
+                    sx={{
+                      height: { xs: "220px", md: "342px" },
+                      bgcolor: "#333",
+                    }}
+                  />
                   <Box sx={{ p: 2, bgcolor: "white" }}>
                     <Typography>Lorem Ipsum</Typography>
                     <Typography sx={{ color: "#9fff1a" }}>Founder</Typography>
@@ -120,11 +131,16 @@ const AboutSection = () => {
                     bgcolor: "#1a1e2e",
                     borderRadius: "8px",
                     overflow: "hidden",
-                    height: "417px",
+                    height: { xs: "300px", md: "417px" },
                     flex: 1,
                   }}
                 >
-                  <Box sx={{ height: "342px", bgcolor: "#333" }} />
+                  <Box
+                    sx={{
+                      height: { xs: "220px", md: "342px" },
+                      bgcolor: "#333",
+                    }}
+                  />
                   <Box sx={{ p: 2, bgcolor: "white" }}>
                     <Typography>Lorem Ipsum</Typography>
                     <Typography sx={{ color: "#9fff1a" }}>Founder</Typography>
@@ -142,7 +158,7 @@ const AboutSection = () => {
                   gap: 1,
                 }}
               >
-                <span> MEET</span>
+                <span style={{ fontWeight: 700, color: "#000" }}>MEET</span>
                 <Box component="span" sx={{ color: "#9fff1a" }}>
                   our team
                 </Box>
