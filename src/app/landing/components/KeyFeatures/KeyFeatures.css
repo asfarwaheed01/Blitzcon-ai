@@ -186,7 +186,7 @@
 /* Right Side Layout */
 .feature-support {
   margin-bottom: 24px;
-  height: 329px;
+  min-height: 329px;
 }
 
 .feature-bottom-cards {

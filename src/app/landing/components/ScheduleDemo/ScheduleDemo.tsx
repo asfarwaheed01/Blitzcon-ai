@@ -302,9 +302,9 @@ const ScheduleDemo = () => {
                 <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
                   <Typography
                     sx={{
-                      fontSize: "24px",
+                      fontSize: { xs: "20px", md: "24px" },
                       color: "#1a1a1a",
-                      width: "200px",
+                      width: { xs: "170px", md: "200px" },
                       flex: "none",
                     }}
                   >
@@ -348,9 +348,9 @@ const ScheduleDemo = () => {
                 <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
                   <Typography
                     sx={{
-                      fontSize: "24px",
+                      fontSize: { xs: "20px", md: "24px" },
                       color: "#1a1a1a",
-                      width: "200px",
+                      width: { xs: "170px", md: "200px" },
                       flex: "none",
                     }}
                   >
@@ -394,13 +394,13 @@ const ScheduleDemo = () => {
                 <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
                   <Typography
                     sx={{
-                      fontSize: "24px",
+                      fontSize: { xs: "20px", md: "24px" },
                       color: "#1a1a1a",
-                      width: "200px",
+                      width: { xs: "140px", md: "200px" },
                       flex: "none",
                     }}
                   >
-                    Enter email Id.
+                    Enter email Id
                   </Typography>
                   <Box
                     sx={{
