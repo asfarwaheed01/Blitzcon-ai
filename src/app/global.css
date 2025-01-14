@@ -1,0 +1,15 @@
+:root {
+  --font-league-spartan: "League Spartan", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-league-spartan);
+}
+
+html,
+body {
+  font-family: var(--font-league-spartan);
+}

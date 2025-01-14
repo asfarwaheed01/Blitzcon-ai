@@ -1,0 +1,276 @@
+.keyfeatures-section {
+  padding: 80px 0;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.keyfeatures-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header Styles */
+.keyfeatures-header {
+  text-align: left; /* Changed to left */
+  margin-bottom: 64px;
+}
+
+.keyfeatures-header h2 {
+  font-size: 100px;
+  font-weight: 900;
+  line-height: 1;
+  color: #1e1e1e;
+  margin-bottom: 0;
+}
+
+.keyfeatures-header p {
+  font-size: 32px;
+  color: #b6ff00;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Content Layout */
+.keyfeatures-content {
+  display: flex;
+  gap: 24px;
+}
+
+.keyfeatures-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.keyfeatures-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+/* Card Base Styles */
+.feature-card {
+  background-color: #1a1e2e;
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+.feature-empty-card {
+  height: 205px;
+}
+
+.feature-empty-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature-content h3 {
+  color: #9fff1a;
+  font-size: 64px;
+  margin-bottom: 20px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.feature-content-news {
+  line-height: 1.2;
+  text-align: left;
+  color: #9fff1a;
+  font-size: 64px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.feature-content p {
+  color: white;
+  text-align: right;
+  font-size: 34px;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Arrow Button */
+.feature-arrow-button {
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.feature-arrow-button svg {
+  color: white;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+}
+
+.feature-arrow-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Left Side Layout */
+.feature-analytics {
+  flex: 0.55;
+  height: 450px;
+}
+
+.feature-info-wrapper {
+  height: 100%;
+  flex: 0.45;
+  display: flex;
+  align-items: flex-end;
+}
+
+.feature-info {
+  padding: 24px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(147, 147, 147, 0.9),
+    rgba(161, 161, 161, 0.7)
+  );
+  z-index: 1;
+}
+
+.feature-info p {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Right Side Layout */
+.feature-support {
+  margin-bottom: 24px;
+  height: 329px;
+}
+
+.feature-bottom-cards {
+  display: flex;
+  gap: 24px;
+  height: 280px;
+}
+
+.feature-image {
+  flex: 0.5;
+  padding: 0;
+  background: #1a1e2e;
+}
+
+.feature-scraping {
+  flex: 0.5;
+  height: 450px;
+}
+
+.feature-top-cards {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.feature-calling {
+  height: 328px;
+  margin-top: auto;
+}
+
+.feature-calling .feature-content {
+  text-align: left; /* Changed from right */
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .keyfeatures-container {
+    padding: 0 16px;
+  }
+
+  .keyfeatures-header h2 {
+    font-size: 56px;
+  }
+
+  .keyfeatures-header p {
+    font-size: 24px;
+  }
+
+  .keyfeatures-content {
+    flex-direction: column;
+  }
+
+  .feature-content h3 {
+    font-size: 28px;
+  }
+
+  .feature-top-cards,
+  .feature-bottom-cards {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .keyfeatures-header h2 {
+    font-size: 48px;
+  }
+
+  .feature-image,
+  .feature-scraping,
+  .feature-analytics,
+  .feature-info {
+    flex: 1;
+    width: 100%;
+    height: 200px;
+  }
+
+  .feature-card {
+    min-height: 180px;
+  }
+}
+
+/* Hover Effects */
+.feature-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
