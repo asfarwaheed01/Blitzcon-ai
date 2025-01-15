@@ -37,7 +37,7 @@ const ScheduleDemo = () => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: { xs: "48px", md: "76px" },
+              fontSize: { xs: "48px", md: "62px" },
               fontWeight: 900,
               textAlign: "right",
               mb: 1,
