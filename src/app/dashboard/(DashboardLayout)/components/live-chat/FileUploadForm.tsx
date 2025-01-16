@@ -4,25 +4,25 @@ import {
   Typography,
   TextField,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Paper,
   styled,
   Alert,
   Container,
+  CircularProgress,
+  keyframes,
 } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
-import { AVATARS } from "@/utils/constants";
 
 interface FormProps {
-  onSubmit: (data: {
-    prompt: string;
-    file: File | null;
-    selectedAvatarId: string;
-  }) => void;
+  onSubmit: (data: { prompt: string; file: File | null }) => void;
+  isLoading: boolean;
 }
+
+const pulse = keyframes`
+  0% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(0.95); opacity: 0.5; }
+`;
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -47,10 +47,9 @@ const UploadBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const UploadForm: React.FC<FormProps> = ({ onSubmit }) => {
+const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
   const [prompt, setPrompt] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [selectedAvatarId, setSelectedAvatarId] = useState(AVATARS[0].id);
   const [error, setError] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,17 +76,16 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit }) => {
       setError("Please enter a prompt");
       return;
     }
-    console.log("handleSubmit called");
-    onSubmit({ prompt, file, selectedAvatarId });
+    onSubmit({ prompt, file });
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ maxWidth: "100%" }}>
       <Paper
         elevation={3}
         sx={{
-          p: 4,
-          mt: 4,
+          p: { xs: 3, md: 4 },
+          mt: { xs: 3, md: 4 },
           bgcolor: "background.paper",
           backdropFilter: "blur(10px)",
         }}
@@ -97,25 +95,9 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit }) => {
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <InputLabel id="avatar-select-label">Select Avatar</InputLabel>
-            <Select
-              labelId="avatar-select-label"
-              value={selectedAvatarId}
-              label="Select Avatar"
-              onChange={(e) => setSelectedAvatarId(e.target.value)}
-            >
-              {AVATARS.map((avatar) => (
-                <MenuItem key={avatar.id} value={avatar.id}>
-                  {avatar.name} ({avatar.ethnicity}, {avatar.age})
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
           <TextField
             fullWidth
-            label="What would you like to chat about?"
+            label="Write your prompt here"
             multiline
             rows={4}
             value={prompt}
@@ -154,14 +136,37 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit }) => {
             size="large"
             sx={{
               mt: 3,
+              py: 1.5,
               background: "linear-gradient(45deg, #2196F3 30%, #512DA8 90%)",
               color: "white",
               "&:hover": {
                 background: "linear-gradient(45deg, #1976D2 30%, #4527A0 90%)",
               },
+              position: "relative",
             }}
+            disabled={isLoading}
           >
-            Start Chat
+            {isLoading ? (
+              <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <CircularProgress
+                    size={20}
+                    sx={{
+                      color: "white",
+                      animation: `${pulse} 1.5s ease-in-out infinite`,
+                    }}
+                  />
+                </Box>
+              </>
+            ) : (
+              "Start Chat"
+            )}
           </Button>
         </Box>
       </Paper>

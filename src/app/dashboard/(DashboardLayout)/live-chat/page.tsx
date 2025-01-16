@@ -34,7 +34,6 @@ const Chat: React.FC = () => {
   const [formData, setFormData] = useState<{
     prompt: string;
     file: File | null;
-    selectedAvatarId: string;
   } | null>(null);
 
   // Avatar states
@@ -89,52 +88,9 @@ const Chat: React.FC = () => {
     return "";
   }
 
-  //   async function startAvatarSession() {
-  //     if (!formData?.selectedAvatarId) return;
-  //     setIsLoadingSession(true);
-
-  //     const newToken = await fetchAccessToken();
-
-  //     avatar.current = new StreamingAvatar({ token: newToken });
-  //     avatar.current.on(StreamingEvents.STREAM_READY, (event) => {
-  //       setStream(event.detail);
-  //     });
-
-  //     try {
-  //       await avatar.current.createStartAvatar({
-  //         avatarName: formData.selectedAvatarId,
-  //         quality: AvatarQuality.High,
-  //         voice: {
-  //           rate: 1,
-  //           emotion: VoiceEmotion.FRIENDLY,
-  //         },
-  //         language: "en",
-  //       });
-  //       setSessionStarted(true);
-  //       if (!introPlayedRef.current) {
-  //         introPlayedRef.current = true;
-  //         setTimeout(speakIntroLines, 1000);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error starting avatar session:", error);
-  //     } finally {
-  //       setIsLoadingSession(false);
-  //     }
-  //   }
-
-  //   const handleFormSubmit = async (data: {
-  //     prompt: string;
-  //     file: File | null;
-  //     selectedAvatarId: string;
-  //   }) => {
-  //     setFormData(data);
-  //     await startAvatarSession();
-  //   };
-
   const handleFormSubmit = async (data: {
     prompt: string;
     file: File | null;
-    selectedAvatarId: string;
   }) => {
     try {
       setIsLoadingSession(true);
@@ -152,7 +108,8 @@ const Chat: React.FC = () => {
       });
 
       await avatar.current.createStartAvatar({
-        avatarName: data.selectedAvatarId,
+        // avatarName: data.selectedAvatarId,
+        avatarName: "eb0a8cc8046f476da551a5559fbb5c82",
         quality: AvatarQuality.High,
         voice: {
           rate: 1,
@@ -394,10 +351,13 @@ const Chat: React.FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            p: 3,
+            p: { xs: 1, md: 3 },
           }}
         >
-          <FileUploadForm onSubmit={handleFormSubmit} />
+          <FileUploadForm
+            onSubmit={handleFormSubmit}
+            isLoading={isLoadingSession}
+          />
         </Box>
       ) : (
         <Box
@@ -433,7 +393,7 @@ const Chat: React.FC = () => {
             </video>
           </Box>
 
-          {sessionStarted && formData?.selectedAvatarId && (
+          {sessionStarted && (
             <Box
               sx={{
                 position: "absolute",
