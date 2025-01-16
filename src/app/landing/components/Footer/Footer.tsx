@@ -1,196 +1,196 @@
+// components/Footer.tsx
 "use client";
-import React, { useEffect, useState } from "react";
-import { Box, Container, Typography, Link } from "@mui/material";
+import React from "react";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  IconButton,
+  Link,
+  List,
+  ListItem,
+  Divider,
+  Stack,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+
+const footerLinks = {
+  product: [
+    { name: "Features", href: "#" },
+    { name: "Solutions", href: "#" },
+    { name: "Pricing", href: "#" },
+    { name: "Templates", href: "#" },
+  ],
+  company: [
+    { name: "About Us", href: "#" },
+    { name: "Careers", href: "#" },
+    { name: "Blog", href: "#" },
+    { name: "Press", href: "#" },
+  ],
+  resources: [
+    { name: "Documentation", href: "#" },
+    { name: "Help Center", href: "#" },
+    { name: "Community", href: "#" },
+    { name: "Contact", href: "#" },
+  ],
+  legal: [
+    { name: "Privacy Policy", href: "#" },
+    { name: "Terms of Service", href: "#" },
+    { name: "Cookie Policy", href: "#" },
+  ],
+};
 
 const Footer = () => {
-  const [background, setBackground] = useState<string | null>(null);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setBackground(
-        "url('https://wallstreet-bucket.s3.eu-north-1.amazonaws.com/Rectangle+13.gif')"
-      );
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, []);
   return (
     <Box
       component="footer"
       sx={{
-        position: "relative",
-        py: 6,
-        background: background,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        color: "white",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "rgba(0,0,0,0.4)",
-          zIndex: 1,
-        },
+        backgroundColor: "#f8f9fa",
+        pt: 8,
+        pb: 4,
       }}
     >
-      <Container
-        maxWidth="xl"
-        sx={{
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-between",
-            gap: 4,
-            mb: 4,
-          }}
-        >
-          {/* Left Section - Description and Social Icons */}
-          <Box sx={{ maxWidth: "400px" }}>
-            <Typography
-              sx={{
-                mb: 3,
-                fontSize: { xs: "16px", md: "24px" },
-                fontWeight: 500,
-                lineHeight: 1.6,
-              }}
+      <Container maxWidth="lg">
+        <Grid container spacing={8}>
+          {/* Brand and Social Links */}
+          <Grid item xs={12} md={4}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
             >
-              BlitzCon-AI Specializes In AI-Driven Solutions To Enhance Business
-              Efficiency And Customer Satisfaction.
-            </Typography>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              {[
-                { icon: <FacebookIcon />, href: "#" },
-                { icon: <InstagramIcon />, href: "#" },
-                { icon: <TwitterIcon />, href: "#" },
-              ].map((social, index) => (
-                <Box
-                  key={index}
-                  component="a"
-                  href={social.href}
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <AutoGraphIcon sx={{ fontSize: 32, color: "#2196f3", mr: 1 }} />
+                <Typography
+                  variant="h6"
                   sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "50%",
-                    bgcolor: "white",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#1a1e2e",
-                    transition: "0.3s",
-                    "&:hover": {
-                      transform: "translateY(-3px)",
-                    },
+                    fontWeight: 700,
+                    color: "#1a237e",
+                    fontFamily: "Poppins",
                   }}
                 >
-                  {social.icon}
-                </Box>
-              ))}
-            </Box>
-          </Box>
-
-          {/* Middle Section - Navigation */}
-          <Box
-            sx={{
-              bgcolor: "rgba(255,255,255,0.1)",
-              borderRadius: "12px",
-              p: 3,
-              minWidth: { xs: "100%", md: "400px" },
-              border: "2px solid white",
-            }}
-          >
-            <Box
-              sx={{ display: "flex", gap: 8, justifyContent: "space-between" }}
-            >
-              <Box>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Pages
+                  Blitzcon AI
                 </Typography>
-                <Link href="/" sx={{ color: "white", display: "block", mb: 1 }}>
-                  Home
-                </Link>
-                <Link
-                  href="/services"
-                  sx={{ color: "white", display: "block", mb: 1 }}
-                >
-                  Services
-                </Link>
-                <Link
-                  href="/about"
-                  sx={{ color: "white", display: "block", mb: 1 }}
-                >
-                  About Us
-                </Link>
-                <Link
-                  href="/blog"
-                  sx={{ color: "white", display: "block", mb: 1 }}
-                >
-                  Blog
-                </Link>
-                <Link href="/contact" sx={{ color: "white", display: "block" }}>
-                  Contact Us
-                </Link>
               </Box>
-              <Box>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Legal
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "#546e7a",
+                  mb: 3,
+                  fontFamily: "Inter",
+                }}
+              >
+                Transform your social media presence with intelligent
+                automation. Save time and boost engagement across platforms.
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <IconButton
+                  sx={{
+                    color: "#2196f3",
+                    "&:hover": { backgroundColor: "rgba(33, 150, 243, 0.08)" },
+                  }}
+                >
+                  <LinkedInIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    color: "#2196f3",
+                    "&:hover": { backgroundColor: "rgba(33, 150, 243, 0.08)" },
+                  }}
+                >
+                  <TwitterIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    color: "#2196f3",
+                    "&:hover": { backgroundColor: "rgba(33, 150, 243, 0.08)" },
+                  }}
+                >
+                  <FacebookIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    color: "#2196f3",
+                    "&:hover": { backgroundColor: "rgba(33, 150, 243, 0.08)" },
+                  }}
+                >
+                  <InstagramIcon />
+                </IconButton>
+              </Stack>
+            </motion.div>
+          </Grid>
+
+          {/* Footer Links */}
+          {Object.entries(footerLinks).map(([category, links], index) => (
+            <Grid item xs={6} sm={3} md={2} key={category}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    color: "#1a237e",
+                    fontWeight: 600,
+                    mb: 2,
+                    textTransform: "capitalize",
+                    fontFamily: "Poppins",
+                  }}
+                >
+                  {category}
                 </Typography>
-                <Link
-                  href="/privacy"
-                  sx={{ color: "white", display: "block", mb: 1 }}
-                >
-                  Privacy Policy
-                </Link>
-                <Link href="/terms" sx={{ color: "white", display: "block" }}>
-                  Terms of Service
-                </Link>
-              </Box>
-            </Box>
-          </Box>
+                <List dense disablePadding>
+                  {links.map((link) => (
+                    <ListItem key={link.name} disablePadding sx={{ mb: 1 }}>
+                      <Link
+                        href={link.href}
+                        underline="none"
+                        sx={{
+                          color: "#546e7a",
+                          fontFamily: "Inter",
+                          "&:hover": {
+                            color: "#2196f3",
+                          },
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
 
-          {/* Right Section - Contact Info */}
-          <Box
-            sx={{
-              bgcolor: "rgba(255,255,255,0.1)",
-              borderRadius: "12px",
-              p: 3,
-              minWidth: { xs: "100%", md: "400px" },
-              border: "2px solid white",
-            }}
-          >
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Contact Us
-            </Typography>
-            <Typography sx={{ mb: 1 }}>
-              Email: support@blitzcon-ai.com
-            </Typography>
-            <Typography sx={{ mb: 1 }}>Phone: +1-234-567-8901</Typography>
-            <Typography>Address: 123 AI Avenue, Tech City, CA</Typography>
-          </Box>
-        </Box>
+        <Divider sx={{ my: 4 }} />
 
-        {/* Copyright */}
-        <Typography
-          sx={{
-            textAlign: "center",
-            borderTop: "1px solid rgba(255,255,255,0.1)",
-            pt: 2,
-            opacity: 0.8,
-          }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
         >
-          © 2024 blitzcon-ai. all rights reserved.
-        </Typography>
+          <Typography
+            variant="body2"
+            align="center"
+            sx={{
+              color: "#546e7a",
+              fontFamily: "Inter",
+            }}
+          >
+            © {new Date().getFullYear()} WorkflowAI. All rights reserved.
+          </Typography>
+        </motion.div>
       </Container>
     </Box>
   );
