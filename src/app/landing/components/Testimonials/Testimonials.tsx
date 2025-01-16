@@ -22,7 +22,7 @@ const testimonials = [
     company: "TechCorp",
     avatar: "/api/placeholder/150/150",
     rating: 5,
-    text: "The AI automation tools have completely transformed our social media management. We've seen a 300% increase in engagement and saved countless hours.",
+    text: "The AI automation tools have completely transformed our social media management. We&apos;ve seen a 300% increase in engagement and saved countless hours.",
   },
   {
     id: 2,
@@ -49,7 +49,7 @@ const testimonials = [
     company: "ScaleUp Solutions",
     avatar: "/api/placeholder/150/150",
     rating: 5,
-    text: "The automation workflows are a game-changer. We've reduced manual tasks by 75% and our team can now focus on strategic initiatives.",
+    text: "The automation workflows are a game-changer. We&apos;ve reduced manual tasks by 75% and our team can now focus on strategic initiatives.",
   },
 ];
 
@@ -206,7 +206,7 @@ const TestimonialsSection = () => {
                     maxWidth: "800px",
                   }}
                 >
-                  "{testimonials[currentIndex].text}"
+                  &ldquo;{testimonials[currentIndex].text}&rdquo;
                 </Typography>
                 <Typography
                   variant="h6"
