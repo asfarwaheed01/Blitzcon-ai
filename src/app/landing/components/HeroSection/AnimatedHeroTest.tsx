@@ -20,7 +20,7 @@ const textVariants = {
 
 const heroTextPairs = [
   {
-    main: "Automate Your Social",
+    main: "Automate Your",
     highlight: "Workflow with AI",
   },
   {

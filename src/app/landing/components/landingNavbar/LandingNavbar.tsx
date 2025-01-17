@@ -115,7 +115,12 @@ const Navbar = () => {
               Blitzcon-AI
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "flex", md: "none", alignItems: "center" },
+              }}
+            >
               <IconButton
                 size="large"
                 aria-controls="menu-appbar"
@@ -125,6 +130,24 @@ const Navbar = () => {
               >
                 <MenuIcon />
               </IconButton>
+              <Typography
+                variant="h6"
+                noWrap
+                component={motion.div}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                sx={{
+                  mr: 2,
+                  display: { xs: "flex", md: "none" },
+                  fontFamily: "Poppins",
+                  fontWeight: 700,
+                  color: "#1a237e",
+                  textDecoration: "none",
+                }}
+              >
+                Blitzcon-AI
+              </Typography>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}

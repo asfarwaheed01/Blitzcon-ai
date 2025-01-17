@@ -114,8 +114,7 @@ const ProductsSection = () => {
               fontFamily: "Inter",
             }}
           >
-            Powerful n8n templates and workflows to automate your social media
-            presence and boost engagement across platforms.
+            Powerful pre built meticulously for plug and play automation.
           </Typography>
         </motion.div>
 
