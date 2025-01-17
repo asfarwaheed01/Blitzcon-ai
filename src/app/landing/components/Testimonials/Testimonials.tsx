@@ -133,7 +133,9 @@ const TestimonialsSection = () => {
           </Typography>
         </motion.div>
 
-        <Box sx={{ position: "relative", height: "400px", overflow: "hidden" }}>
+        <Box
+          sx={{ position: "relative", minHeight: "450px", overflow: "visible" }}
+        >
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={currentIndex}
@@ -223,6 +225,7 @@ const TestimonialsSection = () => {
                   sx={{
                     color: "#546e7a",
                     fontFamily: "Inter",
+                    marginBottom: 2,
                   }}
                 >
                   {testimonials[currentIndex].role} at{" "}
