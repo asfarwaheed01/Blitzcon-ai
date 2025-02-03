@@ -22,6 +22,7 @@ import axios from "axios";
 import { CustomMediaRecorder, Message } from "@/Interfaces/interfaces";
 import Image from "next/image";
 import FileUploadForm from "../components/live-chat/FileUploadForm";
+import { BASE_URL } from "@/utils/constants";
 
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -45,9 +46,7 @@ const Chat: React.FC = () => {
   const introPlayedRef = useRef(false);
 
   const introLines = [
-    `Hello! I'll be analyzing your data regarding: ${
-      formData?.prompt || "your request"
-    }. I'm here to help you understand the insights and patterns in your data. Please feel free to ask me any questions about the analysis.`,
+    `Hello! I'm here to help you understand regarding your queries. Please feel free to ask me any questions.`,
   ];
 
   useEffect(() => {
@@ -88,18 +87,96 @@ const Chat: React.FC = () => {
     return "";
   }
 
+  // const handleFormSubmit = async (data: {
+  //   prompt: string;
+  //   file: File | null;
+  // }) => {
+  //   try {
+  //     setIsLoadingSession(true);
+  //     // First set the form data
+  //     setFormData(data);
+
+  //     // Then immediately start the avatar session
+  //     const newToken = await fetchAccessToken();
+
+  //     avatar.current = new StreamingAvatar({ token: newToken });
+
+  //     // Set up event listener before creating avatar
+  //     avatar.current.on(StreamingEvents.STREAM_READY, (event) => {
+  //       setStream(event.detail);
+  //     });
+
+  //     await avatar.current.createStartAvatar({
+  //       // avatarName: data.selectedAvatarId,
+  //       avatarName: "eb0a8cc8046f476da551a5559fbb5c82",
+  //       quality: AvatarQuality.High,
+  //       voice: {
+  //         rate: 1,
+  //         emotion: VoiceEmotion.FRIENDLY,
+  //       },
+  //       language: "en",
+  //     });
+
+  //     setSessionStarted(true);
+  //     if (!introPlayedRef.current) {
+  //       introPlayedRef.current = true;
+  //       setTimeout(speakIntroLines, 1000);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in handleFormSubmit:", error);
+  //   } finally {
+  //     setIsLoadingSession(false);
+  //   }
+  // };
+
+  const token = localStorage.getItem("token");
+
   const handleFormSubmit = async (data: {
     prompt: string;
-    file: File | null;
+    fileUrl: string | null;
   }) => {
     try {
       setIsLoadingSession(true);
-      // First set the form data
-      setFormData(data);
+      console.log("data", data);
+      setFormData({ prompt: data.prompt, file: null });
 
-      // Then immediately start the avatar session
+      // Check if we have a file URL
+      if (!data.fileUrl) {
+        throw new Error("No file URL provided");
+      }
+
+      // First, process the document
+      const response = await fetch(`${BASE_URL}/process-doc`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          file_path: data.fileUrl,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to process document: ${response.statusText}`);
+      }
+
+      // Get and store API response
+      const apiResult = await response.json();
+      console.log("API Response:", apiResult);
+
+      // Only proceed with avatar session if we have a valid API response
+      if (!apiResult) {
+        throw new Error("Invalid API response");
+      }
+
+      // Now start the avatar session
       const newToken = await fetchAccessToken();
+      if (!newToken) {
+        throw new Error("Failed to fetch access token");
+      }
 
+      // Initialize avatar with the token
       avatar.current = new StreamingAvatar({ token: newToken });
 
       // Set up event listener before creating avatar
@@ -107,8 +184,8 @@ const Chat: React.FC = () => {
         setStream(event.detail);
       });
 
+      // Create and start the avatar
       await avatar.current.createStartAvatar({
-        // avatarName: data.selectedAvatarId,
         avatarName: "eb0a8cc8046f476da551a5559fbb5c82",
         quality: AvatarQuality.High,
         voice: {
@@ -118,13 +195,22 @@ const Chat: React.FC = () => {
         language: "en",
       });
 
+      // Set session as started only after successful avatar creation
       setSessionStarted(true);
+
+      // Play intro lines if not played before
       if (!introPlayedRef.current) {
         introPlayedRef.current = true;
+        // Update intro message to include API response context if needed
+        // You might want to modify the introLines array based on apiResult
         setTimeout(speakIntroLines, 1000);
       }
     } catch (error) {
       console.error("Error in handleFormSubmit:", error);
+      // Reset any partial state in case of error
+      setSessionStarted(false);
+      avatar.current = null;
+      throw error;
     } finally {
       setIsLoadingSession(false);
     }
@@ -143,29 +229,35 @@ const Chat: React.FC = () => {
     setResponseLoading(true);
 
     try {
-      const payload = {
-        user_id: "123",
-        user_query: transcript || inputText.trim(),
-      };
+      const userQuery = transcript || inputText.trim();
 
+      // Add user message to chat
       const userMessage: Message = {
         id: Date.now(),
-        text: transcript || inputText.trim(),
+        text: userQuery,
         isUser: true,
       };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-      const response = await axios.post(
-        "https://iegp3k7uyz.us-east-1.awsapprunner.com/api/generate_response",
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      // Call the new API endpoint
+      const response = await fetch(`${BASE_URL}/generate-response`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: userQuery,
+        }),
+      });
 
-      const botResponse = response.data || "No response received";
+      if (!response.ok) {
+        throw new Error(`API call failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      const botResponse = result.response || "No response received";
+
+      // Add bot message to chat
       const botMessage: Message = {
         id: Date.now(),
         text: botResponse,
@@ -173,6 +265,7 @@ const Chat: React.FC = () => {
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
 
+      // Make the avatar speak the response
       if (avatar.current) {
         try {
           await avatar.current.speak({
@@ -184,12 +277,34 @@ const Chat: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error("Error sending message to the API:", error);
-    }
+      console.error("Error sending message:", error);
+      // Add error message to chat
+      const errorMessage: Message = {
+        id: Date.now(),
+        text: "Sorry, I encountered an error. Please try again.",
+        isUser: false,
+      };
+      setMessages((prevMessages) => [...prevMessages, errorMessage]);
 
-    setInputText("");
-    setResponseLoading(false);
-    setAudioBlob(null);
+      // Make avatar speak error message
+      if (avatar.current) {
+        try {
+          await avatar.current.speak({
+            text: "Sorry, I encountered an error. Please try again.",
+            task_type: TaskType.REPEAT,
+          });
+        } catch (avatarError) {
+          console.error(
+            "Error making the avatar speak error message:",
+            avatarError
+          );
+        }
+      }
+    } finally {
+      setInputText("");
+      setResponseLoading(false);
+      setAudioBlob(null);
+    }
   };
 
   const handleStartRecording = async () => {

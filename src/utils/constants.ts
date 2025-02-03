@@ -122,4 +122,4 @@ export const AVATARS: Avatar[] = [
   },
 ];
 
-export const BASE_URL = "https://1205-223-178-208-186.ngrok-free.app";
+export const BASE_URL = "https://blitzconai.com/api";

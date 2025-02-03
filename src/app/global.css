@@ -1,15 +1,28 @@
 :root {
-  --font-league-spartan: "League Spartan", sans-serif;
+  --font-space-grotesk: "Space Grotesk", sans-serif;
+  --font-inter: "Inter", sans-serif;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-league-spartan);
+  font-family: var(--font-inter);
 }
 
 html,
 body {
-  font-family: var(--font-league-spartan);
+  font-family: var(--font-inter);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

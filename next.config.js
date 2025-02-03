@@ -5,9 +5,12 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:8000/:path*",
+        destination: "https://blitzconai.com/api/:path*",
       },
     ];
+  },
+  env: {
+    HEYGEN_API_KEY: process.env.HEYGENAPIKEY,
   },
 };
 

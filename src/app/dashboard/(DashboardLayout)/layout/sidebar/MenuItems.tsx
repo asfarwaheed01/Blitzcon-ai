@@ -5,6 +5,7 @@ import {
   IconLogin,
   IconMessage,
   IconMoodHappy,
+  IconPhone,
   IconTypography,
   IconUserPlus,
 } from "@tabler/icons-react";
@@ -28,6 +29,12 @@ const Menuitems = [
     title: "Live Chat",
     icon: IconMessage,
     href: "/dashboard/live-chat",
+  },
+  {
+    id: uniqueId(),
+    title: "Call",
+    icon: IconPhone,
+    href: "/dashboard/call",
   },
   // {
   //   navlabel: true,

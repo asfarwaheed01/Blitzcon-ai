@@ -1,33 +1,6 @@
-// const handleLogin = async (): Promise<void> => {
-//   setIsLoading(true);
-//   setError("");
-//   try {
-//     const response = await axios.get(`${BASE_URL}/login`);
-//     if (response.status === 200) {
-//       const html = response.data;
-//       const parser = new DOMParser();
-//       const doc = parser.parseFromString(html, "text/html");
-//       const divElement = doc.querySelector("div[data-payload]");
-//       const token = divElement?.getAttribute("data-payload");
-//       if (!token) {
-//         throw new Error("No authentication token found");
-//       }
-//       localStorage.setItem("authToken", token);
-//       router.push("/dashboard");
-//     }
-//   } catch (err) {
-//     const errorMessage =
-//       err instanceof Error ? err.message : "Login failed. Please try again.";
-//     setError(errorMessage);
-//     console.error("Login Error:", err);
-//   } finally {
-//     setIsLoading(false);
-//   }
-// };
-
 "use client";
 // components/Navbar.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Box,
@@ -44,6 +17,10 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/utils/constants";
+import Link from "next/link";
 
 interface Props {
   children: React.ReactElement;
@@ -63,7 +40,37 @@ const HideOnScroll = (props: Props) => {
 const pages = ["Home", "Products", "Solutions", "Pricing", "Contact"];
 
 const Navbar = () => {
+  const router = useRouter();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (): Promise<void> => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const response = await axios.get(`${BASE_URL}/login`);
+      if (response.status === 200) {
+        const html = response.data;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const divElement = doc.querySelector("div[data-payload]");
+        const token = divElement?.getAttribute("data-payload");
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
+        localStorage.setItem("authToken", token);
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Login failed. Please try again.";
+      setError(errorMessage);
+      console.error("Login Error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -224,8 +231,12 @@ const Navbar = () => {
                     backgroundColor: "#1976d2",
                   },
                 }}
+                // onClick={handleLogin}
               >
-                Login
+                <Link href={`/login`} style={{ textDecoration: "none" }}>
+                  Login
+                </Link>
+                {/* Login */}
               </Button>
             </motion.div>
           </Toolbar>

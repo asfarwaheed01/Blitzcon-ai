@@ -1,107 +1,45 @@
 "use client";
-
 import React from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { keyframes } from "@mui/system";
 
-// Define animations
-const pulse = keyframes`
-  0% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(0.98); }
-  100% { opacity: 1; transform: scale(1); }
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
 `;
 
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-`;
-
-interface LoadingProps {
-  message?: string;
-}
-
-const Loading: React.FC<LoadingProps> = ({
-  message = "Loading amazing things...",
-}) => {
+const SimpleLoading = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#fff",
-        gap: 4,
+        minHeight: "100vh",
+        backgroundColor: "#f5f5f5",
+        animation: `${fadeIn} 0.3s ease-in`,
       }}
     >
-      {/* Main loading circle */}
-      <Box
+      <CircularProgress
+        size={40}
+        thickness={4}
         sx={{
-          position: "relative",
-          animation: `${float} 2s ease-in-out infinite`,
+          color: "#6b46c1",
+          mb: 2,
         }}
-      >
-        <CircularProgress
-          size={80}
-          thickness={4}
-          sx={{
-            color: "#7c4dff",
-          }}
-        />
-        <CircularProgress
-          size={60}
-          thickness={4}
-          sx={{
-            color: "#651fff",
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            marginLeft: -30,
-            marginTop: -30,
-            animation: `${pulse} 1.5s ease-in-out infinite`,
-          }}
-        />
-      </Box>
-
-      {/* Loading text */}
+      />
       <Typography
-        variant="h6"
+        variant="body1"
         sx={{
-          color: "white",
-          textAlign: "center",
-          animation: `${pulse} 2s ease-in-out infinite`,
-          fontSize: { xs: "1rem", sm: "1.25rem" },
-          maxWidth: "80%",
+          color: "#666",
           fontWeight: 500,
         }}
       >
-        {message}
+        Loading...
       </Typography>
-
-      {/* Background decoration */}
-      {[...Array(5)].map((_, index) => (
-        <Box
-          key={index}
-          sx={{
-            position: "absolute",
-            width: "100px",
-            height: "100px",
-            background: "rgba(255, 255, 255, 0.03)",
-            borderRadius: "50%",
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            animation: `${float} ${
-              3 + Math.random() * 2
-            }s ease-in-out infinite`,
-            transform: `scale(${0.5 + Math.random()})`,
-          }}
-        />
-      ))}
     </Box>
   );
 };
 
-export default Loading;
+export default SimpleLoading;

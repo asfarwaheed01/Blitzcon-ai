@@ -37,7 +37,7 @@ const HeroIllustration = () => {
             ry="160"
             fill="none"
             stroke="#7c4dff"
-            stroke-width="2"
+            strokeWidth="2"
             opacity="0.3"
           />
           <ellipse
@@ -47,13 +47,13 @@ const HeroIllustration = () => {
             ry="200"
             fill="none"
             stroke="#7c4dff"
-            stroke-width="2"
+            strokeWidth="2"
             opacity="0.2"
           />
         </g>
 
         {/* <!-- Connection Lines --> */}
-        <g stroke="#7c4dff" stroke-width="2">
+        <g stroke="#7c4dff" strokeWidth="2">
           <line x1="-120" y1="-120" x2="-80" y2="-80" opacity="0.6" />
           <line x1="120" y1="-120" x2="80" y2="-80" opacity="0.6" />
           <line x1="-120" y1="120" x2="-80" y2="80" opacity="0.6" />
@@ -84,7 +84,7 @@ const HeroIllustration = () => {
         r="100"
         fill="none"
         stroke="#7c4dff"
-        stroke-width="2"
+        strokeWidth="2"
         opacity="0.2"
       >
         <animate
@@ -107,7 +107,7 @@ const HeroIllustration = () => {
         r="120"
         fill="none"
         stroke="#7c4dff"
-        stroke-width="2"
+        strokeWidth="2"
         opacity="0.1"
       >
         <animate
