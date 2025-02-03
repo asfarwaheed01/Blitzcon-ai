@@ -299,7 +299,7 @@ const LoginPage = () => {
 
             <Box sx={{ mt: 2, textAlign: "center" }}>
               <Typography variant="body2" color="text.secondary">
-                Don't have an account?{" "}
+                Do not have an account?
                 <Link
                   href="/signup"
                   style={{

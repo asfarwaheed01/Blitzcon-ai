@@ -123,3 +123,7 @@ export const AVATARS: Avatar[] = [
 ];
 
 export const BASE_URL = "https://blitzconai.com/api";
+
+export const getAccessToken = () => {
+  return localStorage.getItem("token");
+};

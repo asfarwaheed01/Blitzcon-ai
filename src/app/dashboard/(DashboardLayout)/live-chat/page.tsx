@@ -11,12 +11,10 @@ import StreamingAvatar, {
 import {
   Box,
   Container,
-  Typography,
   IconButton,
   TextField,
   Paper,
   Button,
-  styled,
 } from "@mui/material";
 import axios from "axios";
 import { CustomMediaRecorder, Message } from "@/Interfaces/interfaces";
@@ -129,8 +127,6 @@ const Chat: React.FC = () => {
   //   }
   // };
 
-  const token = localStorage.getItem("token");
-
   const handleFormSubmit = async (data: {
     prompt: string;
     fileUrl: string | null;
@@ -150,7 +146,6 @@ const Chat: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           file_path: data.fileUrl,
