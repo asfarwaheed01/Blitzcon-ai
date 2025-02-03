@@ -85,51 +85,10 @@ const Chat: React.FC = () => {
     return "";
   }
 
-  // const handleFormSubmit = async (data: {
-  //   prompt: string;
-  //   file: File | null;
-  // }) => {
-  //   try {
-  //     setIsLoadingSession(true);
-  //     // First set the form data
-  //     setFormData(data);
-
-  //     // Then immediately start the avatar session
-  //     const newToken = await fetchAccessToken();
-
-  //     avatar.current = new StreamingAvatar({ token: newToken });
-
-  //     // Set up event listener before creating avatar
-  //     avatar.current.on(StreamingEvents.STREAM_READY, (event) => {
-  //       setStream(event.detail);
-  //     });
-
-  //     await avatar.current.createStartAvatar({
-  //       // avatarName: data.selectedAvatarId,
-  //       avatarName: "eb0a8cc8046f476da551a5559fbb5c82",
-  //       quality: AvatarQuality.High,
-  //       voice: {
-  //         rate: 1,
-  //         emotion: VoiceEmotion.FRIENDLY,
-  //       },
-  //       language: "en",
-  //     });
-
-  //     setSessionStarted(true);
-  //     if (!introPlayedRef.current) {
-  //       introPlayedRef.current = true;
-  //       setTimeout(speakIntroLines, 1000);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error in handleFormSubmit:", error);
-  //   } finally {
-  //     setIsLoadingSession(false);
-  //   }
-  // };
-
   const handleFormSubmit = async (data: {
     prompt: string;
     fileUrl: string | null;
+    avatarId: string;
   }) => {
     try {
       setIsLoadingSession(true);
@@ -155,23 +114,18 @@ const Chat: React.FC = () => {
       if (!response.ok) {
         throw new Error(`Failed to process document: ${response.statusText}`);
       }
-
-      // Get and store API response
       const apiResult = await response.json();
       console.log("API Response:", apiResult);
 
-      // Only proceed with avatar session if we have a valid API response
       if (!apiResult) {
         throw new Error("Invalid API response");
       }
 
-      // Now start the avatar session
       const newToken = await fetchAccessToken();
       if (!newToken) {
         throw new Error("Failed to fetch access token");
       }
 
-      // Initialize avatar with the token
       avatar.current = new StreamingAvatar({ token: newToken });
 
       // Set up event listener before creating avatar
@@ -181,7 +135,7 @@ const Chat: React.FC = () => {
 
       // Create and start the avatar
       await avatar.current.createStartAvatar({
-        avatarName: "eb0a8cc8046f476da551a5559fbb5c82",
+        avatarName: data.avatarId,
         quality: AvatarQuality.High,
         voice: {
           rate: 1,

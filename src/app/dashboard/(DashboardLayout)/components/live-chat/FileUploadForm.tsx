@@ -1,4 +1,3 @@
-// components/UploadForm.tsx
 import React, { useState } from "react";
 import {
   Box,
@@ -10,14 +9,17 @@ import {
   Alert,
   Container,
   CircularProgress,
-  keyframes,
-  LinearProgress,
 } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { useFileUpload } from "@/hooks/useFileUpload";
+import AvatarSelect from "./AvatarSelect";
 
 interface FormProps {
-  onSubmit: (data: { prompt: string; fileUrl: string | null }) => Promise<void>;
+  onSubmit: (data: {
+    prompt: string;
+    fileUrl: string;
+    avatarId: string;
+  }) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -44,22 +46,12 @@ const UploadBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const pulse = keyframes`
-  0% { transform: scale(0.95); opacity: 0.5; }
-  50% { transform: scale(1.05); opacity: 0.8; }
-  100% { transform: scale(0.95); opacity: 0.5; }
-`;
-
 const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
-  const {
-    uploadFile,
-    isUploading,
-    error: uploadError,
-    progress,
-  } = useFileUpload();
+  const { uploadFile, isUploading, error: uploadError } = useFileUpload();
   const [prompt, setPrompt] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [s3Key, setS3Key] = useState<string | null>(null);
+  const [avatarId, setAvatarId] = useState("");
   const [error, setError] = useState("");
 
   const handleFileChange = async (
@@ -69,11 +61,8 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
     if (!selectedFile) return;
 
     const fileExtension = selectedFile.name.split(".").pop()?.toLowerCase();
-
     if (!fileExtension || !["doc", "docx", "pdf"].includes(fileExtension)) {
       setError("Please upload only .doc, .docx, or .pdf files");
-      setFile(null);
-      setFileUrl(null);
       return;
     }
 
@@ -83,14 +72,15 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
     try {
       const result = await uploadFile(selectedFile);
       if (result.success && result.fileUrl) {
-        setFileUrl(result.fileUrl);
+        setS3Key(result.fileUrl);
         setError("");
+        console.log("File uploaded successfully", result.fileUrl);
       } else {
         throw new Error("Failed to upload file");
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error uploading file");
-      setFileUrl(null);
+      setS3Key(null);
     }
   };
 
@@ -102,36 +92,27 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
       return;
     }
 
-    if (!fileUrl && file) {
-      setError("Please wait for file upload to complete");
+    if (!s3Key) {
+      setError("Please upload a file");
       return;
     }
 
     try {
-      await onSubmit({ prompt, fileUrl });
+      await onSubmit({ prompt, fileUrl: s3Key, avatarId });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error submitting form");
     }
   };
 
-  const isSubmitDisabled = isLoading || isUploading || (!fileUrl && !!file);
-
   return (
-    <Container maxWidth="md" sx={{ maxWidth: "100%" }}>
-      <Paper
-        elevation={3}
-        sx={{
-          p: { xs: 3, md: 4 },
-          mt: { xs: 3, md: 4 },
-          bgcolor: "background.paper",
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        <Typography variant="h4" component="h2" gutterBottom align="center">
-          AI Live Chat Assistant
+    <Container maxWidth="md">
+      <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          AI Document Assistant
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <AvatarSelect value={avatarId} onChange={setAvatarId} />
           <TextField
             fullWidth
             label="Write your prompt here"
@@ -160,22 +141,8 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
             />
           </UploadBox>
 
-          {isUploading && (
-            <Box sx={{ mt: 2, mb: 2 }}>
-              <LinearProgress variant="determinate" value={progress} />
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                align="center"
-                sx={{ mt: 1 }}
-              >
-                Uploading: {progress}%
-              </Typography>
-            </Box>
-          )}
-
           {(error || uploadError) && (
-            <Alert severity="error" sx={{ mt: 2, mb: 2 }}>
+            <Alert severity="error" sx={{ mt: 2 }}>
               {error || uploadError}
             </Alert>
           )}
@@ -185,34 +152,11 @@ const UploadForm: React.FC<FormProps> = ({ onSubmit, isLoading }) => {
             fullWidth
             variant="contained"
             size="large"
-            sx={{
-              mt: 3,
-              py: 1.5,
-              background: "linear-gradient(45deg, #2196F3 30%, #512DA8 90%)",
-              color: "white",
-              "&:hover": {
-                background: "linear-gradient(45deg, #1976D2 30%, #4527A0 90%)",
-              },
-              position: "relative",
-            }}
-            disabled={isSubmitDisabled}
+            sx={{ mt: 3 }}
+            disabled={isLoading || isUploading || !s3Key}
           >
             {isLoading || isUploading ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress
-                  size={20}
-                  sx={{
-                    color: "white",
-                    animation: `${pulse} 1.5s ease-in-out infinite`,
-                  }}
-                />
-              </Box>
+              <CircularProgress size={24} color="inherit" />
             ) : (
               "Start Chat"
             )}

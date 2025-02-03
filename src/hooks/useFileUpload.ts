@@ -1,53 +1,42 @@
-// hooks/useFileUpload.ts
 import { useState } from "react";
-import { uploadService } from "../services/fileUpload";
-
-interface UploadResult {
-  fileUrl: string | null;
-  success: boolean;
-}
+import { BASE_URL } from "@/utils/constants";
 
 export const useFileUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
 
-  const uploadFile = async (file: File): Promise<UploadResult> => {
+  const uploadFile = async (file: File) => {
+    setIsUploading(true);
+    setError(null);
+    setProgress(0);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
     try {
-      setIsUploading(true);
-      setError(null);
-      setProgress(0);
+      const response = await fetch(`${BASE_URL}/upload_doc`, {
+        method: "POST",
+        body: formData,
+      });
 
-      // Upload to S3
-      setProgress(30);
-      const uploadResult = await uploadService.uploadToS3(file);
-
-      if (!uploadResult.success || !uploadResult.fileUrl) {
-        throw new Error(uploadResult.error || "Upload failed");
+      if (!response.ok) {
+        throw new Error("Upload failed");
       }
 
-      setProgress(100);
+      const data = await response.json();
       return {
-        fileUrl: uploadResult.fileUrl,
         success: true,
+        fileUrl: data.s3_key,
+        chunksProcessed: data.chunks_processed,
       };
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "An error occurred";
-      setError(errorMessage);
-      return {
-        fileUrl: null,
-        success: false,
-      };
+      setError(err instanceof Error ? err.message : "Upload failed");
+      return { success: false };
     } finally {
       setIsUploading(false);
     }
   };
 
-  return {
-    uploadFile,
-    isUploading,
-    error,
-    progress,
-  };
+  return { uploadFile, isUploading, error, progress };
 };

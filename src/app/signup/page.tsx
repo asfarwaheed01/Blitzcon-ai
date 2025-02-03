@@ -25,6 +25,7 @@ import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
 import { BASE_URL } from "@/utils/constants";
+import Logo from "../../../public/images/logos/logo.png";
 
 interface SignupFormData {
   username: string;
@@ -223,13 +224,7 @@ const SignupPage = () => {
           >
             {/* Logo placeholder */}
             <Box sx={{ mb: 2 }}>
-              <Image
-                src="/logo.png"
-                alt="Logo"
-                width={150}
-                height={50}
-                priority
-              />
+              <Image src={Logo} alt="Logo" width={150} height={50} priority />
             </Box>
 
             <Typography
