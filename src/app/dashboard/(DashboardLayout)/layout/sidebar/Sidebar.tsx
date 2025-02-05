@@ -1,7 +1,11 @@
-import { useMediaQuery, Box, Drawer } from "@mui/material";
+import { useMediaQuery, Box, Drawer, Typography } from "@mui/material";
 import SidebarItems from "./SidebarItems";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import { Upgrade } from "./Updrade";
 import { Sidebar, Logo } from "react-mui-sidebar";
+import { Zap } from "lucide-react";
+import theme from "@/utils/theme";
+import { motion } from "framer-motion";
 
 interface ItemType {
   isMobileSidebarOpen: boolean;
@@ -70,7 +74,62 @@ const MSidebar = ({
               {/* ------------------------------------------- */}
               {/* Logo */}
               {/* ------------------------------------------- */}
-              <Logo img="/images/logos/dark-logo.svg" />
+              {/* <Logo img="/images/logos/dark-logo.svg" /> */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  paddingX: "25px",
+                  paddingTop: "25px",
+                  gap: 1.5,
+                  position: "relative",
+                  "&:hover": {
+                    "& .zap-icon": {
+                      transform: "scale(1.1)",
+                      filter: "drop-shadow(0 0 8px rgba(93, 135, 255, 0.5))",
+                    },
+                    "& .text-container": {
+                      transform: "translateX(4px)",
+                    },
+                  },
+                }}
+              >
+                <Box
+                  className="zap-icon"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    transition: "all 0.3s ease-in-out",
+                  }}
+                >
+                  <AutoGraphIcon
+                    sx={{
+                      display: { xs: "none", md: "flex" },
+                      mr: 1,
+                      color: "#2196f3",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component={motion.div}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  sx={{
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "Poppins",
+                    fontWeight: 700,
+                    color: "#1a237e",
+                    fontSize: "25px",
+                    textDecoration: "none",
+                  }}
+                >
+                  Blitzcon-AI
+                </Typography>
+              </Box>
               <Box>
                 {/* ------------------------------------------- */}
                 {/* Sidebar Items */}
@@ -115,7 +174,61 @@ const MSidebar = ({
           {/* ------------------------------------------- */}
           {/* Logo */}
           {/* ------------------------------------------- */}
-          <Logo img="/images/logos/dark-logo.svg" />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              paddingX: "25px",
+              paddingTop: "25px",
+              gap: 1.5,
+              position: "relative",
+              "&:hover": {
+                "& .zap-icon": {
+                  transform: "scale(1.1)",
+                  filter: "drop-shadow(0 0 8px rgba(93, 135, 255, 0.5))",
+                },
+                "& .text-container": {
+                  transform: "translateX(4px)",
+                },
+              },
+            }}
+          >
+            <Box
+              className="zap-icon"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                transition: "all 0.3s ease-in-out",
+              }}
+            >
+              <AutoGraphIcon
+                sx={{
+                  display: { xs: "flex", md: "none" },
+                  mr: 1,
+                  color: "#2196f3",
+                }}
+              />
+            </Box>
+            <Typography
+              variant="h6"
+              noWrap
+              component={motion.div}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                fontFamily: "Poppins",
+                fontWeight: 700,
+                color: "#1a237e",
+                fontSize: "20px",
+                textDecoration: "none",
+              }}
+            >
+              Blitzcon-AI
+            </Typography>
+          </Box>
           {/* ------------------------------------------- */}
           {/* Sidebar Items */}
           {/* ------------------------------------------- */}
